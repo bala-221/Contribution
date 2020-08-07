@@ -1,0 +1,74 @@
+
+    public static function didSendRequest($userTo){
+
+        $userFrom = auth()->user()->userName;
+
+        $num = \App\FriendRequest::where('user_to', $userTo)
+                                   ->where('user_from', $userFrom)->get()->count();
+
+        if($num > 0){
+
+            return true;
+
+        }else{
+
+            return false;
+        }
+
+    }
+
+
+
+    public static function didReceiveRequest($userFrom){
+
+        $userTo = auth()->user()->userName;
+
+        $num = \App\FriendRequest::where('user_to', $userTo)
+                                   ->where('user_from', $userFrom)->get()->count();
+
+        if($num > 0){
+
+            return true;
+
+        }else{
+
+            return false;
+        }
+
+    }
+
+
+
+
+    public static function isFriend($username_to_check){
+
+        $userLoggedIn = auth()->user();
+
+        $usernameComma = "," . $username_to_check . ",";
+
+
+        if((strpos($userLoggedIn->FriendArray, $usernameComma) || $username_to_check ==  $userLoggedIn->userName)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+
+    }
+
+
+    public static function getFirstAndLastName($userName){
+
+        $user = User::where('userName', $userName)->get();
+
+        $firtsLastName = $user->firstName.''. $user->lastName;
+
+        return $firtsLastName;
+    }
+
+
+
+    public function getFriendArray(){
+
+        
+    }
